@@ -2,7 +2,7 @@ function Student(name) {
     this.name = name
     var age = 30,                           //приватное свойство 1
         group = 'FTF90-21';                       //приватное свойство 2
-    this.getInfoStudent = function () {     //публичный метод
+    Student.prototype.getInfoStudent = function () {     //публичный метод
         console.log('Student' + ' ', name + '. Age:' + ' ' + age + ', group: ' + ' ' + group)
     }
 }
