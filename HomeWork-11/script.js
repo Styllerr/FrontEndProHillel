@@ -1,4 +1,4 @@
-class Man {
+class Man {                            //первый конструктор
     constructor(name) {
         this.name = name;
     }
@@ -13,37 +13,35 @@ class Man {
     }
 }
 
-class OldMan extends Man {
+class OldMan extends Man {             //второй конструктор
     run() {
         console.log('I am running, but very slow');
     }
     go() {
         console.log('I am going, but very slow');
     }
-    say() {
-        return false;
-    }
+    say() { }
 }
-var layoutName;
-class Layout {
+class Layout {                         //конструктор с статическим методом
     static createLayout(layoutName) {
-        if (layoutName === 'Man') {
-            return new Man();
-        } else if (layoutName === 'OldMan') {
-            return new OldMan();
-        }
+        return new layoutName();
     }
 }
-/* let firstObj = new Man('Evgeniy');
-console.log(firstObj);
-firstObj.run();
-firstObj.go();
-firstObj.say();
-let secondObj = new OldMan('mr.Policer');
-console.log(secondObj);
-secondObj.run();
-secondObj.go();
-secondObj.say();
- */
-layoutName = prompt('What you want create: Man or OldMan ?');
-Layout.createLayout();
+
+let layoutName = prompt('What you want create: Man or OldMan ?');
+
+if (layoutName === 'Man' || layoutName === 'man') {
+    resault = Layout.createLayout(Man);
+} else if (layoutName === 'OldMan' || layoutName === 'oldman') {
+    resault = Layout.createLayout(OldMan);
+} else {
+    resault = null;
+    console.log('ERROR');
+}
+
+if (resault) {                         //проверка
+    console.log(resault);
+    resault.run();
+    resault.go();
+    resault.say();
+}
