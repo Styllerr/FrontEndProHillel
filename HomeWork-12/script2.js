@@ -1,4 +1,4 @@
-var staticPass = '98room';
+let staticPass = '98room';
 class LogIn {
     static check(pass) {
         if (pass === staticPass) {
