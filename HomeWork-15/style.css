@@ -1,0 +1,17 @@
+#main_article {
+    max-width: 900px;
+}
+
+#table_caption  {
+    font-style: italic;
+}
+#table_body {
+    border-collapse: collapse;
+}
+th, td {
+    border-style: double;
+}
+
+#list {
+    max-width: 1200px;
+}
