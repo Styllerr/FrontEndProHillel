@@ -1,0 +1,37 @@
+#header_text {
+    font-style: italic;
+
+}
+#header_text:after,
+#label_name:after,
+#label_email:after,
+#label_age:after {
+    content: ' *';
+    color: red;
+}
+#wrap_contactInfo,
+#wrap_personInfo {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 800px;
+    border: 1px solid #000;
+    margin-bottom: 40px;
+
+}
+#contactInfo_text,
+#personInfo_text {
+    display: inline-block;
+    width: 100%;
+}
+#wrap_name,
+#wrap_telephone,
+#wrap_email,
+#wrap_age,
+#wrap_grand,
+#wrap_qualities {
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin-bottom: 20px;  
+     
+}
