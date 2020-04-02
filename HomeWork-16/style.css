@@ -1,5 +1,7 @@
 #header_text {
     font-style: italic;
+    margin-top: -15px;
+    margin-bottom: 25px;
 
 }
 #header_text:after,
@@ -10,28 +12,58 @@
     color: red;
 }
 #wrap_contactInfo,
-#wrap_personInfo {
+#wrap_personInfo,
+#wrap_belovedAnimal {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    max-width: 800px;
+    max-width: 573px;
     border: 1px solid #000;
-    margin-bottom: 40px;
+    padding-top: 25px;
+    padding-left: 20px;
+
+    margin-bottom: 26px;
 
 }
 #contactInfo_text,
-#personInfo_text {
+#personInfo_text,
+#belovedAnimal_text {
     display: inline-block;
-    width: 100%;
+    position: absolute;
+    font-size: 18px;
+    background-color: #ffffff;
+    top: -10px;
+    left: 20px;
 }
 #wrap_name,
 #wrap_telephone,
 #wrap_email,
 #wrap_age,
-#wrap_grand,
+#wrap_gender,
 #wrap_qualities {
     display: flex;
     justify-content: space-between;
-    width: 75%;
-    margin-bottom: 20px;  
+    width: 65%;
+    margin-bottom: 15px;  
      
+}
+.belovedAnimal {
+    width: 22%;
+    margin-bottom: 20px;
+}
+#field_name,
+#field_telephone,
+#field_email,
+#field_age,
+#field_gender {
+    width: 68%;
+}
+
+#field_qualities {
+    width: 120%;
+}
+
+#sendForm {
+    margin-top: -10px;
+    padding: 10px 6px;
 }

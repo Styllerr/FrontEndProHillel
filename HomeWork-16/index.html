@@ -34,23 +34,58 @@
                 <span id="personInfo_text">Персональная информация</span>
                 <div id="wrap_age">
                     <label id="label_age" for="field_age">Возраст</label>
-                    <input type="number" name="contactage" id="field_age">
+                    <input type="number" name="contactAge" id="field_age">
                 </div>
-                <div id="wrap_grand">
-                    <label id="label_grand" for="field_grand">Пол</label>
-                    <input type="text" name="contactgrand" id="field_grand">
+                <div id="wrap_gender">
+                    <label id="label_gender" for="field_gender">Пол</label>
+                    <select name="contactGender" id="field_gender">
+                        <option value="female" selected>Женщина</option>
+                        <option value="male">Мужчина</option>
+                        <option value="x">Не определился</option>
+                    </select>
                 </div>
                 <div id="wrap_qualities">
                     <label id="label_qualities" for="field_qualities">Перечислите личные качества</label>
-                    <textarea cols="30" rows="10" name="contactqualities" id="field_qualities"></textarea>
+                    <textarea cols="60" rows="6" name="contactqualities" id="field_qualities"></textarea>
                 </div>
             </div>
-            <div id="wrap_like">
-                <span id="like_text">Выберите ваших любимых животных</span>
-                
+            <div id="wrap_belovedAnimal">
+                <span id="belovedAnimal_text">Выберите ваших любимых животных</span>
+                <div id="wrap_zebra" class="belovedAnimal">
+                    <input id="zebra" type="checkbox" name="belovedAnimal" value="zebra">
+                    <label for="zebra">Зебра</label>
+                </div>
+                <div id="wrap_cat" class="belovedAnimal">
+                    <input id="cat" type="checkbox" name="belovedAnimal" value="cat">
+                    <label for="cat">Кошак</label>
+                </div>
+                <div id="wrap_anaconda" class="belovedAnimal">
+                    <input id="anaconda" type="checkbox" name="belovedAnimal" value="anaconda">
+                    <label for="anaconda">Анаконда</label>
+                </div>
+                <div id="wrap_human" class="belovedAnimal">
+                    <input id="human" type="checkbox" name="belovedAnimal" value="human">
+                    <label for="human">Человек</label>
+                </div>
+                <div id="wrap_elephant" class="belovedAnimal">
+                    <input id="elephant" type="checkbox" name="belovedAnimal" value="elephant">
+                    <label for="elephant">Слон</label>
+                </div>
+                <div id="wrap_antelope" class="belovedAnimal">
+                    <input id="antelope" type="checkbox" name="belovedAnimal" value="antelope">
+                    <label for="antelope">Антилопа</label>
+                </div>
+                <div id="wrap_dove" class="belovedAnimal">
+                    <input id="dove" type="checkbox" name="belovedAnimal" value="dove">
+                    <label for="dove">Голубь</label>
+                </div>
+                <div id="wrap_crab" class="belovedAnimal">
+                    <input id="crab" type="checkbox" name="belovedAnimal" value="crab">
+                    <label for="crab">Краб</label>
+                </div>
                 
             </div>
-
+            <input type="submit" value="Отправить информацию" id="sendForm">
         </form>
     </main>
 </body>
