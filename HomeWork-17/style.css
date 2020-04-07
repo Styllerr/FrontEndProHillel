@@ -1,0 +1,12 @@
+#wraper_contact {
+    margin-bottom: 30px;
+}
+label {
+    margin-right: 10px;
+}
+input {
+    margin-left: 5px;
+}
+.contact_age {
+    width: 40px;
+}
