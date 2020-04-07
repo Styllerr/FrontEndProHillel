@@ -16,20 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // const firstName = document.querySelector('input.contact_firstName'),
-    //     secondName = document.querySelector('input.contact_secondName'),
-    //     age = document.querySelector('input.contact_age'),
-    //     addButton = document.querySelector('button.contact_addButton');
-
-    // addButton.addEventListener('click', Eventer.addContackt())
-
+    
+    
     //МОДЕЛЬ
     class Contact {
-        constructor(firstName, secondName, age, view) {
+        constructor(firstName, secondName, age) {
             this.name = firstName;
             this.secondName = secondName;
             this.age = age;
-            this.view = view;
         }
     }
     //Контроллер
@@ -37,12 +31,19 @@ document.addEventListener('DOMContentLoaded', function () {
         constructor(view) {
             this.view = view;
         }
-        addContact() {
-
+        static addContact() {
+            // firstName = firstName.value;
+            newContact = new Contact();
         }
     }
     let pageOne = new PageStart();
     pageOne.createPage();
-
     let control = new Event(pageOne);
+
+    const firstName = document.querySelector('input.contact_firstName'),
+        secondName = document.querySelector('input.contact_secondName'),
+        age = document.querySelector('input.contact_age');
+    
+    const addButton = document.querySelector('button.contact_addButton');
+    addButton.addEventListener('click', Event.addContackt(firstName.value, secondName.value, age.value))
 })
