@@ -1,83 +1,136 @@
 document.addEventListener('DOMContentLoaded', function () {
     let listContact = [];
-    //Представление 1
+
+    //View 1
     class PageStart {
         constructor() {
-            this.contactFirstName = '<label>Имя:<input type="text" class="contact_firstName" autofocus></label>',
+                this.contactFirstName = '<label>Имя:<input type="text" class="contact_firstName" autofocus></label>',
                 this.contactSecondName = '<label>Фамилия:<input type="text" class="contact_secondName"></label>',
                 this.contactAge = '<label>Возраст:<input type="number" class="contact_age"></label>',
-                this.contactAddButton = '<button class="contact_addButton">Добавить</button>',
-                this.showButton = '<button id="showButton">Список</button>';
+                this.listButton = document.createElement('button'),
+                this.listButton.id = 'showButton',
+                this.listButton.innerText = 'Список',
+                this.addButton = document.createElement('button'),
+                this.addButton.classList.add('contact_addButton'),
+                this.addButton.innerText = 'Добавить',
+                this.createPage(),
+                this.firstName = document.querySelector('input.contact_firstName'),
+                this.secondName = document.querySelector('input.contact_secondName'),
+                this.age = document.querySelector('input.contact_age');
         }
         createPage() {
-            document.body.innerHTML = '<div id="wraper_contact"></div>' + this.showButton;
+            document.body.innerHTML = '<div id="wraper_contact"></div>';
+            document.body.append(this.listButton);
             let wraperContact = document.getElementById('wraper_contact');
-            wraperContact.innerHTML = `${this.contactFirstName}${this.contactSecondName}${this.contactAge}${this.contactAddButton}`;
+            wraperContact.innerHTML = `${this.contactFirstName}${this.contactSecondName}${this.contactAge}`;
+            wraperContact.append(this.addButton);
         }
+        get contactData() {
+            return [this.firstName.value, this.secondName.value, this.age.value]
+        }
+        afterAdd() {
+            this.firstName.value = '';
+            this.secondName.value = '';
+            this.age.value = '';
+            this.firstName.focus();
+        }
+        bindAddContact(metod) {
+            this.addButton.addEventListener('click', () => {
+                metod(this.contactData);
+                this.afterAdd();
+            });
+        }
+        bindListContact(metod) {
+            this.listButton.addEventListener('click', () => {
+                metod();
+
+            });
+        }
+
     }
 
-    //Представление 2
+    //View 2
+
     class PageList {
+        constructor() {
+            this.wrapper = document.createElement('div'),
+                this.wrapper.id = 'wraper_list',
+                this.orderList = document.createElement('ol');
+        }
         createPage() {
-            document.body.innerHTML = '<div id="wraper_list"><ol></ol></div>';
-            let placeList = document.querySelector('#wraper_list>ol');
+            document.body.innerHTML = '';
+            document.body.append(this.wrapper);
+            this.wrapper.append(this.orderList);
+            this.makeList();
+        }
+        makeList() {
             let indexContact = listContact.length;
-
+            this.orderList.innerHTML = '';
             for (let i = 0; i < indexContact; i++) {
-                let listItem = document.createElement('li');
-                let cross = document.createElement('span');
-                cross.className = 'mark';
-                cross.addEventListener('click', Controller.delFromList)
-                listItem.innerText = listContact[i].secondName;
-
-                placeList.append(listItem);
-                listItem.append(cross);
+                this.listItem = document.createElement('li');
+                this.cross = document.createElement('span');
+                this.cross.className = 'mark';
+                this.listItem.innerText = listContact[i].secondName;
+                this.orderList.append(this.listItem);
+                this.listItem.append(this.cross);
             }
+        }
+        get deleteName() {
+            return event.target.parentNode.innerText
+        }
+        bindDeleteContact(metod) {
+            this.orderList.addEventListener('click', () => {
+                if(event.target.className === 'mark') {             //задел на кнопку edit
+                     metod();
+                    }
+            })
         }
     }
 
     //МОДЕЛЬ
+
     class Contact {
-        constructor(firstName, secondName, age) {
-            this.firstName = firstName;
-            this.secondName = secondName;
-            this.age = age;
+        addContactInList(contactDataValue) {
+            const contactObj = {
+                firstName: contactDataValue[0],
+                secondName: contactDataValue[1],
+                age: parseInt(contactDataValue[2])
+            };
+            listContact.push(contactObj);
+        }
+        delContactFromList(nameDelCont) {
+            listContact = listContact.filter((element) => nameDelCont != element.secondName);
         }
     }
 
     //Контроллер
 
     class Controller {
-        static addContact() {
-            let firstName = document.querySelector('input.contact_firstName'),
-                secondName = document.querySelector('input.contact_secondName'),
-                age = document.querySelector('input.contact_age');
-
-            let newContact = new Contact(firstName.value, secondName.value, age.value);
-
-            listContact.push(newContact);
-            firstName.value = '';
-            secondName.value = '';
-            age.value = '';
-            firstName.focus();
+        constructor(view, list, model) {
+            this.view = view
+            this.list = list
+            this.model = model
+            this.view.bindAddContact(this.handleAddContact)
+            this.view.bindListContact(this.handlListContact)
+            this.list.bindDeleteContact(this.handlDeleteContact)
         }
-        static showList() {
-            let pageList = new PageList();
-            pageList.createPage();
+        handleAddContact = (contactDataValue) => {
+            this.model.addContactInList(contactDataValue)
         }
-        static delFromList() {
-            let nameDelCont = event.target.parentNode.innerText;
-            listContact = listContact.filter((element) => nameDelCont != element.secondName);
-            Controller.showList();
+        handlListContact = () => {
+            this.list.createPage()
+        }
+        handlDeleteContact = () => {
+            this.model.delContactFromList(this.list.deleteName);
+            this.refreshListContact();
+        }
+        refreshListContact() {
+            this.list.makeList();
         }
     }
 
-    let pageOne = new PageStart();
-    pageOne.createPage();
-
-    const addButton = document.querySelector('button.contact_addButton'),
-        showButton = document.getElementById('showButton');
-
-    addButton.addEventListener('click', Controller.addContact);
-    showButton.addEventListener('click', Controller.showList);
+    const view = new PageStart();
+    const list = new PageList();
+    const model = new Contact();
+    const control = new Controller(view, list, model);
 })
