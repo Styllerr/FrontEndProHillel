@@ -10,21 +10,21 @@ input {
 .contact_age {
     width: 40px;
 }
-.mark {
+.markDel {
     height: 10px;
     width: 10px;
 }
-.mark {
+.markDel {
     display: inline-block;
     height: 10px;
     width: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
     background-color: #FA6900;
     position: relative;
     cursor: pointer;
 }
 
-.mark:after {
+.markDel:after {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -35,4 +35,12 @@ input {
     color: #FFF;
     line-height: 12px;
     text-align: center;
+}
+img.edit {
+    display: inline-block;
+    margin-left: 15px;
+    height: 10px;
+    width: 10px;
+    background-color: rgb(255, 151, 110);
+    cursor: pointer;
 }
