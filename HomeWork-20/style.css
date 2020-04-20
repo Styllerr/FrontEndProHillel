@@ -1,0 +1,7 @@
+.wrapper {
+    position: relative;
+    height: 400px;
+    background-image: url(img/gotham.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
