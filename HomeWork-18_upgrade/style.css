@@ -1,0 +1,49 @@
+body {
+    font-size: 22px;
+}
+#wraper_contact {
+    margin-bottom: 30px;
+}
+label {
+    margin-right: 10px;
+}
+input {
+    margin-left: 5px;
+}
+.contact_age {
+    width: 40px;
+}
+.markDel {
+    height: 10px;
+    width: 10px;
+}
+.markDel {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    margin-left: 10px;
+    background-color: #FA6900;
+    position: relative;
+    cursor: pointer;
+}
+
+.markDel:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "\274c";
+    font-size: 10px; 
+    color: #FFF;
+    line-height: 15px;
+    text-align: center;
+}
+img.edit {
+    display: inline-block;
+    margin-left: 15px;
+    height: 15px;
+    width: 15px;
+    background-color: rgb(69, 140, 187);
+    cursor: pointer;
+}
