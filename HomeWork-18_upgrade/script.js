@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    ////////////////////////////////////////////////////////
     class View {
         constructor() {
             this.contactFirstName = '<label>Имя:<input type="text" class="contact_firstName" autofocus></label>'
@@ -57,14 +58,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     class ViewPageList {
         constructor() {
-            this.wrapper = document.createElement('div'),
-                this.wrapper.id = 'wraper_list',
-                this.orderList = document.createElement('ol'),
-                this.backButton = document.createElement('button'),
-                this.blankList = document.createElement('h3'),
-                this.blankList.innerText = 'Нет данных для отображения!'
-                this.backButton.id = 'back',
-                this.backButton.innerText = 'Назад';
+            this.wrapper = document.createElement('div')
+            this.wrapper.id = 'wraper_list'
+            this.orderList = document.createElement('ol')
+            this.backButton = document.createElement('button')
+            this.blankList = document.createElement('h3')
+            this.blankList.innerText = 'Нет данных для отображения!'
+            this.backButton.id = 'back'
+            this.backButton.innerText = 'Назад'
         }
         createPage(listContact) {
             document.body.innerHTML = '';
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.listItem.id = `contact_${contact.id}`;
                     this.editBatton = document.createElement('img');
                     this.editBatton.src = 'image/45407.png';
-                    this.editBatton.className = 'edit';
+                    this.editBatton.className = 'markEdit';
                     this.cross = document.createElement('span');
                     this.cross.className = 'markDel';
                     this.listItem.innerText = contact.secondName;
@@ -89,20 +90,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.listItem.append(this.editBatton);
                     this.listItem.append(this.cross);
                 }
-                )}else {
+                )
+            } else {
                 this.orderList.append(this.blankList);
             }
         }
         get selectedNameId() {
-            let target = event.target.parentNode.id;  
+            let target = event.target.parentNode.id;
             return parseInt(target.replace(/contact_/, ''))
         }
-
         bindDelEditContact(metodDelete, metodEdit) {
             this.orderList.addEventListener('click', () => {
                 if (event.target.className === 'markDel') {
                     metodDelete();
-                } else if (event.target.className === 'edit') {
+                } else if (event.target.className === 'markEdit') {
                     metodEdit();
                 }
             })
@@ -121,106 +122,98 @@ document.addEventListener('DOMContentLoaded', function () {
             super()
             this.button.innerText = 'Изменить'
         }
-        createPage(listContact, id) {
+        createPage(editContact) {
             super.createPage();
-            this.idEditContact = id;
-            this.firstName.value = listContact.firstName;
-            this.secondName.value = listContact.secondName;
-            this.age.value = listContact.age;
+            this.indexContact = editContact[0];
+            this.firstName.value = editContact[1];
+            this.secondName.value = editContact[2];
+            this.age.value = editContact[3];
         }
         bindCompeteEdit(metod) {
             this.button.addEventListener('click', () => {
-                metod(this.idEditContact, this.contactData)
+                metod(this.indexContact, this.contactData)
             })
         }
     }
 
+    ////////////////////////////////////////////////////////
+
+    class Model {
+        get listContact() {
+            return JSON.parse(localStorage.getItem('listContact'))
+        }
+        saveList(tempList) {
+            localStorage.setItem('listContact', JSON.stringify(tempList));
+        }
+    }
     ////////////////////////////////////////////////////////МОДЕЛЬ 1
 
-    class ModelPageStart {
+    class ModelPageStart extends Model {
         constructor() {
-            this.listContact = JSON.parse(localStorage.getItem('listContact')) || []
+            super()
+            const initListContact = JSON.parse(localStorage.getItem('listContact')) || []
+            this.saveList(initListContact)
         }
         get contactId() {
-            if(this.listContact.length > 0) {
-                return parseInt(this.listContact[this.listContact.length-1].id)+1
+            if (this.listContact.length > 0) {
+                return parseInt(this.listContact[this.listContact.length - 1].id) + 1
             } else {
-               return 1;
+                return 1;
             }
         }
         addContactInList(contactDataValue) {
-            this.listContact = JSON.parse(localStorage.getItem('listContact'));
-            if(contactDataValue[1] != '') {
+            let tempListContact = this.listContact
+            if (contactDataValue[1] != '') {
                 const contactObj = {
                     id: this.contactId,
                     firstName: contactDataValue[0],
                     secondName: contactDataValue[1],
                     age: parseInt(contactDataValue[2]) || 0
                 };
-                this.listContact.push(contactObj);
-                this.saveList(this.listContact);
-                console.log(this.listContact);
-            }else {
+                tempListContact.push(contactObj);
+                this.saveList(tempListContact);
+            } else {
                 alert('Нужне ввести хотя бы фамилию!');
             }
-        }
-        saveList(listContact) {
-            localStorage.setItem('listContact', JSON.stringify(listContact));
         }
     }
 
     ////////////////////////////////////////////////////////МОДЕЛЬ 2
 
-    class ModelPageList {
-        get listContact() {
-            return JSON.parse(localStorage.getItem('listContact'))
+    class ModelPageList extends Model {
+        constructor() {
+            super()
         }
         delContactFromList(idDelCont) {
             let tempListContact = this.listContact.filter((element) => idDelCont != element.id);
             this.saveList(tempListContact);
         }
-        findEditContactList(selectedName) {
-            let findObj;
-            this.listContact.forEach(function (item, i) {
-                if (item.secondName === selectedName) {
-                    findObj = [item, i]
+    }
+
+    ////////////////////////////////////////////////////////МОДЕЛЬ 3
+
+    class ModelPageEdit extends Model {
+        constructor() {
+            super()
+        }
+        contactForEdit(idEditContact) {
+            let editContact;
+            this.listContact.forEach((item, index) => {
+                if (item.id === idEditContact) {
+                    editContact = [index, item.firstName, item.secondName, item.age]
                 }
             })
-            return findObj
+            return editContact;
         }
-        storeEditContact(index, newContactData) {
-            const contactObj = {
-                firstName: newContactData[0],
-                secondName: newContactData[1],
-                age: parseInt(newContactData[2])
-            };
-            this.listContact.splice(index, 1, contactObj)
-            this.saveList(this.listContact);
-        }
-        saveList(tempListContact) {
-            localStorage.setItem('listContact', JSON.stringify(tempListContact));
+        storeEditContact(index, newRecord) {
+            let tempListRec = this.listContact;
+            tempListRec[index].firstName = newRecord[0];
+            tempListRec[index].secondName = newRecord[1];
+            tempListRec[index].age = parseInt(newRecord[2]);
+            this.saveList(tempListRec);
         }
     }
 
-        ////////////////////////////////////////////////////////МОДЕЛЬ 3
-
-        class ModelPageEdit {
-            get listContact() {
-                return JSON.parse(localStorage.getItem('listContact'))
-            }
-            storeEditContact(index, newContactData) {
-                const contactObj = {
-                    firstName: newContactData[0],
-                    secondName: newContactData[1],
-                    age: parseInt(newContactData[2])
-                };
-                this.listContact.splice(index, 1, contactObj)
-                this.saveList(this.listContact);
-            }
-            saveList(tempListContact) {
-                localStorage.setItem('listContact', JSON.stringify(tempListContact));
-            }
-        }
     /////////////////////////////////////////////////Контроллер 1
 
     class ControllerPageStart {
@@ -266,11 +259,6 @@ document.addEventListener('DOMContentLoaded', function () {
         handlInitPageEdit = () => {
             this.control3.initPageEdit(this.view.selectedNameId);
         }
-        handlFindEditContact = () => {
-            let editObj = this.model.findEditContactList(this.view.selectedName)[0];
-            let editObjIndex = this.model.findEditContactList(this.view.selectedName)[1];
-            this.edit.createPage(editObj, editObjIndex);
-        }
         refreshListContact() {
             this.view.makeList(this.model.listContact);
         }
@@ -282,27 +270,30 @@ document.addEventListener('DOMContentLoaded', function () {
         constructor(view3, model3) {
             this.view = view3
             this.model = model3
-            // this.control2 = control2
-            this.view.bindCompeteEdit()
+            this.view.bindCompeteEdit(this.handlCompeteEdit)
         }
         initPageEdit(id) {
-
+            let editContact = this.model.contactForEdit(id);
+            this.view.createPage(editContact);
         }
-
+        handlCompeteEdit = (index, newRecord) => {
+            this.model.storeEditContact(index, newRecord);
+            control2.initViewPageList();
+        }
         refreshListContact() {
             this.view.makeList(this.model.listContact);
         }
     }
 
-        const view1 = new ViewPageStart();
-        const view2 = new ViewPageList();
-        const view3 = new ViewPageEdit();
-        const model1 = new ModelPageStart();
-        const model2 = new ModelPageList();
-        const model3 = new ModelPageEdit();
-        const control1 = new ControllerPageStart(view1, model1);
-        const control3 = new ControllerPageEdit(view3, model3);
-        const control2 = new ControllerPageList(view2, model2, control1, control3);
-        control1.initViewPageStart();
+    const view1 = new ViewPageStart();
+    const view2 = new ViewPageList();
+    const view3 = new ViewPageEdit();
+    const model1 = new ModelPageStart();
+    const model2 = new ModelPageList();
+    const model3 = new ModelPageEdit();
+    const control1 = new ControllerPageStart(view1, model1);
+    const control3 = new ControllerPageEdit(view3, model3);
+    const control2 = new ControllerPageList(view2, model2, control1, control3);
+    control1.initViewPageStart();
 
 })
