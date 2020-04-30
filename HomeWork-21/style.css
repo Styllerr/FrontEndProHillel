@@ -1,0 +1,37 @@
+#currency {
+    margin-left: 20px;
+}
+.currencyBlock {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 25px 25px;
+    margin-top: 20px;
+}
+.currencyCaption {
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+.buyCaption {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+.saleCaption {
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+.currencyName {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+.buy {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+.sale {
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+.cell {
+    border-bottom: 1px solid gray;
+    margin-bottom: 5px;
+}
