@@ -57,14 +57,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     class Model {
         constructor() {
-            this.currencyList = []
             this.xhttp = new XMLHttpRequest()
         }
         getCurrentCurrency() {
             this.xhttp.open("GET", "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5", true);
             this.xhttp.send();
-            this.xhttp.onload = (e) => {
-                this.currencyList = JSON.parse(e.currentTarget.responseText);
+            this.xhttp.onload = () => {
+                if (this.xhttp.status >= 400) {
+                    console.error('Данные ПриватБанка не доступны');
+                } else {
+                    this.currencyList = JSON.parse(this.xhttp.responseText);
+                }
             }
         }
         selectCurrency(val) {
@@ -73,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             return data;
         }
-
     }
 
     class Controller {
