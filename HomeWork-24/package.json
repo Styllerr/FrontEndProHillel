@@ -1,0 +1,19 @@
+{
+  "name": "homework-24",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016\u0016https://github.com/Styllerr/FrontEndProHillel/tree/master/HomeWork-24"
+  },
+  "author": "EvgeniyChukavov",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
