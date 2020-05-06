@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (xhttp.status >= 400) {
                 console.error('Данные не доступны');
             } else {
-                blockDataText = JSON.parse(xhttp.responseText);
-                blockData.textContent = blockDataText;
-                console.log(blockDataText);
+                blockData.textContent = xhttp.response;
             }
         }
     }
