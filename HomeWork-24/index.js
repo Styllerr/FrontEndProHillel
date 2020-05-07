@@ -1,7 +1,9 @@
-let express = require('express');
+const path = require('path');
+const express = require('express');
 
-let app = express();
-app.use(express.static(__dirname + '/pub'));
+const app = express();
+
+app.use(express.static(path.join(__dirname + '/pub')));
 
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
